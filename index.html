@@ -190,10 +190,16 @@
         let currentPlan = null;
 
         const plans = [
-            { mrp: 3599, off: 600, val: "365 Days", data: "2.5GB/Day", tag: "Annual Value" },
-            { mrp: 1299, off: 400, val: "84 Days", data: "3.0GB/Day", tag: "TRUE 5G Hero" },
-            { mrp: 859, off: 300, val: "90 Days", data: "2.0GB/Day", tag: "Popular Choice" },
-            { mrp: 449, off: 150, val: "28 Days", data: "3.0GB/Day", tag: "Unlimited Data" }
+            const plans = [
+            { mrp: 3599, off: 1800, val: "365 Days", data: "2.5GB/Day", tag: "Annual Super Saver" },
+            { mrp: 1299, off: 650, val: "84 Days", data: "3.0GB/Day", tag: "TRUE 5G Hero" },
+            { mrp: 1029, off: 515, val: "84 Days", data: "2.0GB/Day + Amazon Prime", tag: "Entertainment Plus" },
+            { mrp: 859, off: 430, val: "90 Days", data: "2.0GB/Day", tag: "Best Seller" },
+            { mrp: 799, off: 400, val: "84 Days", data: "1.5GB/Day + Disney+ Hotstar", tag: "OTT Special" },
+            { mrp: 449, off: 225, val: "28 Days", data: "3.0GB/Day", tag: "Unlimited Data" },
+            { mrp: 349, off: 175, val: "28 Days", data: "2.0GB/Day", tag: "Standard Plan" },
+            { mrp: 299, off: 150, val: "28 Days", data: "1.5GB/Day", tag: "Budget Pack" },
+            { mrp: 198, off: 99, val: "14 Days", data: "2.0GB/Day", tag: "Small Pack" }
         ];
         function showPage(id) {
             document.querySelectorAll('div[id^="page-"]').forEach(p => p.classList.add('hidden'));
